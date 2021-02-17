@@ -1,0 +1,27 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_DATABASE: codepetitor
+      MYSQL_ROOT_PASSWORD: example
+    volumes: 
+      - ./init:/docker-entrypoint-initdb.d
+    ports:
+      - 3306:3306
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  codepetitor:
+    depends_on: 
+      - db
+    build: .
+    ports:
+      - 5000:5000
