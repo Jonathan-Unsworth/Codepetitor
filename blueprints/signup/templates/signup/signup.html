@@ -1,1 +1,21 @@
-Signup
+{% extends 'base.html' %}
+{% block title %}
+    Signup
+{% endblock %}
+{% block body %}
+    <form class="w-25 p-3 mx-auto" method="POST">
+
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" name="username" aria-describedby="username">
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Signup</button>
+
+    </form>
+{% endblock %}

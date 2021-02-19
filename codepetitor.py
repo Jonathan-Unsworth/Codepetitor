@@ -3,7 +3,7 @@ from pony.flask import Pony
 
 
 def auth():
-    if 'username' not in session and request.endpoint != 'blueprint_login.login':
+    if 'username' not in session and request.endpoint != 'blueprint_login.login' and request.endpoint != 'blueprint_signup.signup':
         return redirect(url_for('blueprint_login.login'))
     
 

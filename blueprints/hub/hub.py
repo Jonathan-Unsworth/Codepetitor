@@ -10,5 +10,4 @@ blueprint_hub = Blueprint (
 
 @blueprint_hub.route('/', methods=['GET', 'POST'])
 def hub():
-    return session["test"]
-    #return render_template('hub.html')
+    return render_template('hub.html')
