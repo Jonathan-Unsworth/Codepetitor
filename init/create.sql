@@ -20,7 +20,9 @@ ALTER TABLE `player` ADD CONSTRAINT `fk_player__player_stats_id` FOREIGN KEY (`p
 
 CREATE TABLE `task` (
   `task_id` INTEGER PRIMARY KEY AUTO_INCREMENT,
-  `task_description` VARCHAR(255) NOT NULL
+  `task_description` VARCHAR(255) NOT NULL,
+  `task_name` VARCHAR(255) NOT NULL,
+  `task_code` VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE `games_played` (

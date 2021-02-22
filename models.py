@@ -38,6 +38,8 @@ class Task(db.Entity):
     task_id = PrimaryKey(int, auto=True)
     task_description = Required(str)
     games = Set(Games_Played)
+    task_name = Required(str)
+    task_code = Required(str)
 
 db.bind(host="localhost", provider="mysql", user="root", password="charmander117", db="codepetitor")
 db.generate_mapping()

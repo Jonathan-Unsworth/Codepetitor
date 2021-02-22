@@ -10,11 +10,6 @@ blueprint_signup = Blueprint (
     static_url_path='assets'
 )
 
-@blueprint_signup.route('/')
-def signup():
-    return render_template('signup/signup.html')
-
-
 @blueprint_signup.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':

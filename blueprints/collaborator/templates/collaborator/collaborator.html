@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block title %}
+Collaborator
+{% endblock %}
+{% block body %}
+
+<script src="https://cdn.socket.io/3.1.1/socket.io.min.js"
+    integrity="sha384-gDaozqUvc4HTgo8iZjwth73C6dDDeOJsAgpxBcMpZYztUfjHXpzrpdrHRdVp8ySO"
+    crossorigin="anonymous"></script>
+
+<!-- <script type="text/javascript" charset="utf-8">
+    var socket = io();
+
+    socket.on('connect', function () {
+        socket.emit('my event');
+    });
+
+    function getEl(id) {
+        return document.getElementById(id);
+    }
+
+    var editor = getEl("editor");
+
+    editor.addEventListener("keyup", (evt) => {
+        var text = editor.value;
+        socket.emit('collab_update');
+    });
+
+    socket.on('send_data', function() {
+        socket.emit('collab_data', text)
+    });
+</script> -->
+
+<div class="d-flex flex-row vw-100 vh-100">
+    <div class="jumbotron w-50 h-50">
+        <h1 class="display-4">{{task_name}}</h1>
+        <hr class="my-4">
+        <p>{{task_desc}}</p>
+    </div>
+
+    <div class="w-50 h-50" id="editor">
+        // Fill out the body of this function
+        {{task_code}}
+
+    </div>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.min.js"
+    integrity="sha512-GoORoNnxst42zE3rYPj4bNBm0Q6ZRXKNH2D9nEmNvVF/z24ywVnijAWVi/09iBiVDQVf3UlZHpzhAJIdd9BXqw=="
+    crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/theme-twilight.min.js"
+    integrity="sha512-2IqbT6swyxY2XnBLoAIUYyxu2Oj1XoS7AafJE/5q3vl0mmXyKxIIyKqh1jZNqZeNsp8uP8JRNtG2Z6sgoadXOA=="
+    crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/mode-c_cpp.min.js"
+    integrity="sha512-0OZmNbvdTUAXjS/gE+K7ytccKZGonVz82m6zzAZ5kbByRTC0WlO2BL3BjSvpzn4mCnpr3gFSRmqUVPrzJLVEwg=="
+    crossorigin="anonymous"></script>
+
+<script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/twilight");
+    editor.session.setMode("ace/mode/c_cpp");
+
+    var socket = io();
+
+    socket.on('connect', function () {
+        socket.emit('my event');
+    });
+
+    var received = false;
+
+    socket.on('update_editor', function(data) {
+        received = true;
+        editor.setValue(data);
+    });
+
+    if(received == false) {
+        editor.on('change', function() {
+            socket.emit('collab_update', editor.getValue());
+        }); 
+    }
+
+    received = false;
+    
+ 
+</script>
+
+{% endblock %}
