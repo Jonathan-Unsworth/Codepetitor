@@ -69,22 +69,25 @@ Collaborator
         socket.emit('my event');
     });
 
-    var received = false;
+    var lock = false;
 
     socket.on('update_editor', function(data) {
-        received = true;
+        pos = editor.getCursorPosition();
         editor.setValue(data);
+        editor.clearSelection();
+        editor.moveCursorToPosition(pos);
+        lock = true;
     });
 
-    if(received == false) {
-        editor.on('change', function() {
-            socket.emit('collab_update', editor.getValue());
-        }); 
-    }
-
-    received = false;
     
- 
+    editor.on('input', function() {
+        if(lock == false) {
+            socket.emit('collab_update', editor.getValue());
+        } else if(lock == true) {
+            lock = false;
+        }
+    }); 
+    
 </script>
 
 {% endblock %}

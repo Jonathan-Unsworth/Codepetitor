@@ -1,6 +1,9 @@
 from flask import Flask, session, redirect, url_for, request
 from pony.flask import Pony
 from flask_socketio import SocketIO
+from engineio.payload import Payload
+
+Payload.max_decode_packets = 2
 
 
 def auth():
