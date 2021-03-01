@@ -8,29 +8,6 @@ Collaborator
     integrity="sha384-gDaozqUvc4HTgo8iZjwth73C6dDDeOJsAgpxBcMpZYztUfjHXpzrpdrHRdVp8ySO"
     crossorigin="anonymous"></script>
 
-<!-- <script type="text/javascript" charset="utf-8">
-    var socket = io();
-
-    socket.on('connect', function () {
-        socket.emit('my event');
-    });
-
-    function getEl(id) {
-        return document.getElementById(id);
-    }
-
-    var editor = getEl("editor");
-
-    editor.addEventListener("keyup", (evt) => {
-        var text = editor.value;
-        socket.emit('collab_update');
-    });
-
-    socket.on('send_data', function() {
-        socket.emit('collab_data', text)
-    });
-</script> -->
-
 <div class="d-flex flex-row vw-100 vh-100">
     <div class="jumbotron w-50 h-50">
         <h1 class="display-4">{{task_name}}</h1>
@@ -38,12 +15,20 @@ Collaborator
         <p>{{task_desc}}</p>
     </div>
 
-    <div class="w-50 h-50" id="editor">
-        // Fill out the body of this function
-        {{task_code}}
+    <div class="w-50 h-50" id="editor">{{task_code}}</div>
 
+    <div class="card w-50 h-50">
+        <!-- <textarea class="w-100 h-100" id="chatArea"></textarea> -->
+        <ul class="w-100 h-100" id="chat_box" style="list-style-type:none;">
+
+        </ul>
+        <input class="chatInput w-100" id="chat_input" placeholder="Enter your message here">
     </div>
+
+    <!-- <textarea id="chat" cols="50" rows="10"></textarea>
+    <input id="text" size="80" placeholder="Enter your message here"> -->
 </div>
+
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.min.js"
@@ -71,7 +56,7 @@ Collaborator
 
     var lock = false;
 
-    socket.on('update_editor', function(data) {
+    socket.on('update_editor', function (data) {
         pos = editor.getCursorPosition();
         editor.setValue(data);
         editor.clearSelection();
@@ -79,15 +64,32 @@ Collaborator
         lock = true;
     });
 
-    
-    editor.on('input', function() {
-        if(lock == false) {
+
+    editor.on('input', function () {
+        if (lock == false) {
             socket.emit('collab_update', editor.getValue());
-        } else if(lock == true) {
+        } else {
             lock = false;
         }
-    }); 
-    
+    });
+
+    socket.on('update_chat', function (data) {
+        var ul = document.getElementById("chat_box");
+        var li = document.createElement("li");
+        li.appendChild(document.createTextNode(data));
+        //li.className = "badge bg-secondary";
+        ul.appendChild(li);
+        document.getElementById("chat_input").value = "";
+    });
+
+    document.getElementById('chat_input')
+        .addEventListener('keyup', function (event) {
+            if (event.keyCode == 13) {
+                event.preventDefault();
+                socket.emit('chat_update', document.getElementById("chat_input").value); 
+            }
+        });
+
 </script>
 
 {% endblock %}

@@ -28,3 +28,6 @@ def handle_collab_update(data):
     emit('update_editor', data, broadcast=True)
 
 
+@socketio.on('chat_update')
+def handle_chat_update(data):
+    emit('update_chat', data, broadcast=True)
