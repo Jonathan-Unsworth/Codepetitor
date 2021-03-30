@@ -8,7 +8,7 @@ Collaborator
     integrity="sha384-gDaozqUvc4HTgo8iZjwth73C6dDDeOJsAgpxBcMpZYztUfjHXpzrpdrHRdVp8ySO"
     crossorigin="anonymous"></script>
 
-<div class="d-flex flex-row vw-100 vh-100">
+<!-- <div class="d-flex flex-row vw-100 vh-100">
     <div class="jumbotron w-50 h-50">
         <h1 class="display-4">{{task_name}}</h1>
         <hr class="my-4">
@@ -18,18 +18,43 @@ Collaborator
     <div class="w-50 h-50" id="editor">{{task_code}}</div>
 
     <div class="card w-50 h-50">
-        <!-- <textarea class="w-100 h-100" id="chatArea"></textarea> -->
-        <ul class="w-100 h-100" id="chat_box" style="list-style-type:none;">
+        <input class="chatInput w-100" id="chat_input" placeholder="Enter your message here">
+        <ul class="list-group w-100 h-50" id="chat_box" style="list-style: none;">
 
         </ul>
-        <input class="chatInput w-100" id="chat_input" placeholder="Enter your message here">
+        
     </div>
 
-    <!-- <textarea id="chat" cols="50" rows="10"></textarea>
-    <input id="text" size="80" placeholder="Enter your message here"> -->
+</div> -->
+
+<div class="card-deck p-4 w-100">
+    <div class="card jumbotron w-33">  
+        <h1 class="display-4">{{task_name}}</h1>
+        <hr class="my-4">
+        <p>{{task_desc}}</p>    
+    </div>
+    <div class="card w-33">
+        <div class="card-body" id="editor">
+{{task_code}}
+        </div>
+    </div>
+    
 </div>
 
+<div class="card-deck p-4 w-100">
+    <div class="card jumbotron w-33">  
+        <a href="http://127.0.0.1:5000/hub/"><button type="button" class="btn btn-outline-primary"><h3>Finish</h3></button></a>
+        <hr class="my-4">
+        <p>Click the button when you are finished participating</p>    
+    </div>
+    <div class="card w-33">
+        <input class="chatInput" id="chat_input" placeholder="Enter your message here">
+        <ul class="list-group" id="chat_box" style="list-style: none;">
 
+        </ul>
+        
+    </div>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.min.js"
     integrity="sha512-GoORoNnxst42zE3rYPj4bNBm0Q6ZRXKNH2D9nEmNvVF/z24ywVnijAWVi/09iBiVDQVf3UlZHpzhAJIdd9BXqw=="
@@ -76,8 +101,8 @@ Collaborator
     socket.on('update_chat', function (data) {
         var ul = document.getElementById("chat_box");
         var li = document.createElement("li");
+        li.className = "list-group-item list-group-item-primary";
         li.appendChild(document.createTextNode(data));
-        //li.className = "badge bg-secondary";
         ul.appendChild(li);
         document.getElementById("chat_input").value = "";
     });
@@ -86,7 +111,7 @@ Collaborator
         .addEventListener('keyup', function (event) {
             if (event.keyCode == 13) {
                 event.preventDefault();
-                socket.emit('chat_update', document.getElementById("chat_input").value); 
+                socket.emit('chat_update', "{{username}}: " + document.getElementById("chat_input").value); 
             }
         });
 
